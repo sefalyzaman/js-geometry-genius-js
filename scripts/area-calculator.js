@@ -19,7 +19,7 @@ function calculateTriangleArea(){
     const areaSpan = document.getElementById('triangle-area');
     areaSpan.innerText = area;
 
-   
+    addToCalculationEntry('traiangle', area);
 }
 function calculateRectangleArea(){
     // get rectangle width
@@ -49,6 +49,8 @@ function calculateRectangleArea(){
     const rectengleAreaSpan = document.getElementById('rectangle-area');
     rectengleAreaSpan.innerText = area;
 
+    addToCalculationEntry('rectangle', area); 
+
 }
 
 // reusable function-----> reduce duplicate code
@@ -60,15 +62,20 @@ function calculateParallelogramArea(){
     const height = getInputValue('Parallelogram-height');
     console.log(height);
 
+    // validate
+    if(isNaN(base) || isNaN(height)){
+        alert('please insert a number')
+        return;
+}
+
     const area = base * height;
     setElementInnerText('Parallelogram-area', area)
+
+    // add to calculation entry
+    addToCalculationEntry('Parallelogram', area)
     
 }
-// validate
-if(isNaN(base) || isNaN(height)){
-    alert('please insert a number')
-    return;
-}
+
 
 function calculateEllipseArea(){
     const majorRadious = getInputValue('Ellipse-major-radious');
@@ -76,8 +83,11 @@ function calculateEllipseArea(){
     const area = 3.14 * majorRadious * minorRadious;
     const areaTwoDecimal = area.toFixed(2);
     setElementInnerText('Ellipse-area', areaTwoDecimal);
-    console.log(area);
+    
 }
+
+    addToCalculationEntry('Ellipse', areaTwoDecimal);
+
 
 // reusable get input value field in number
 function getInputValue(FieldId){
@@ -92,3 +102,28 @@ function setElementInnerText(elementId, area){
     element.innerText = area;
 
 }
+// add to calculation entry
+/**
+ * 1. get the element where you want to add the dynamic HTML
+ * 2. create an element you want to add
+ * 
+ * */ 
+function addToCalculationEntry(areaType, area){
+    console.log(areaType + '' + area)
+    const calculationEntry = document.getElementById('Calculation-entry');
+
+    const count = calculationEntry.childElementCount
+
+    const p = document.createElement('p')
+    p.classList.add('my-4')
+    p.innerHTML = `${count + 1}. ${areaType} ${area} cm <sup>2</sup> <button class= 'btn btn-sm btn-success>Convert</button>`
+}
+
+// validate
+/*
+ 1.set the proper type of the input field (number, data, email)
+ 2. check type using typeof
+ 3. NaN means: not a number isNaN is checking whether the input is not a number or not
+
+
+*/
